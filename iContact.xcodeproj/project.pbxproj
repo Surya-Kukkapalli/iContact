@@ -64,8 +64,10 @@
 		6A18C0A322ED040C0095BFE1 /* iContact */ = {
 			isa = PBXGroup;
 			children = (
-				6A18C0C522ED5B980095BFE1 /* ViewController */,
-				6A18C0C422ED5B730095BFE1 /* Model */,
+				6A18C0C622ED5CD20095BFE1 /* Contact */,
+				6A18C0C722ED5CF00095BFE1 /* Group */,
+				6A18C0C822ED5CF80095BFE1 /* Favorite */,
+				6A18C0BC22ED30F10095BFE1 /* TabBarViewController.swift */,
 				6A18C0A422ED040C0095BFE1 /* AppDelegate.swift */,
 				6A18C0AB22ED040D0095BFE1 /* Assets.xcassets */,
 				6A18C0B022ED040D0095BFE1 /* Info.plist */,
@@ -73,24 +75,78 @@
 			path = iContact;
 			sourceTree = "<group>";
 		};
-		6A18C0C422ED5B730095BFE1 /* Model */ = {
+		6A18C0C622ED5CD20095BFE1 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				6A18C0C922ED5D130095BFE1 /* ViewControllers */,
+				6A18C0CA22ED5D1B0095BFE1 /* Model */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
+		6A18C0C722ED5CF00095BFE1 /* Group */ = {
+			isa = PBXGroup;
+			children = (
+				6A18C0CB22ED5D340095BFE1 /* ViewControllers */,
+				6A18C0CC22ED5D400095BFE1 /* Model */,
+			);
+			path = Group;
+			sourceTree = "<group>";
+		};
+		6A18C0C822ED5CF80095BFE1 /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+				6A18C0CE22ED5D5C0095BFE1 /* ViewController */,
+				6A18C0CD22ED5D4E0095BFE1 /* Model */,
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		6A18C0C922ED5D130095BFE1 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6A18C0A622ED040C0095BFE1 /* MainViewController.swift */,
+				6A18C0BA22ED05190095BFE1 /* ContactViewController.swift */,
+				6A18C0BE22ED54BB0095BFE1 /* AddContactViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		6A18C0CA22ED5D1B0095BFE1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				6A18C0C022ED5AA40095BFE1 /* Contact.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6A18C0CB22ED5D340095BFE1 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6A18C0B622ED05020095BFE1 /* GroupsViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		6A18C0CC22ED5D400095BFE1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				6A18C0C222ED5B0D0095BFE1 /* Group.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		6A18C0C522ED5B980095BFE1 /* ViewController */ = {
+		6A18C0CD22ED5D4E0095BFE1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6A18C0A622ED040C0095BFE1 /* MainViewController.swift */,
-				6A18C0B622ED05020095BFE1 /* GroupsViewController.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6A18C0CE22ED5D5C0095BFE1 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
 				6A18C0B822ED050C0095BFE1 /* FavoritesViewController.swift */,
-				6A18C0BA22ED05190095BFE1 /* ContactViewController.swift */,
-				6A18C0BE22ED54BB0095BFE1 /* AddContactViewController.swift */,
-				6A18C0BC22ED30F10095BFE1 /* TabBarViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";

@@ -18,7 +18,6 @@ class MainViewController: UITableViewController {
         setupNavigationBarItems()
         refreshControl = UIRefreshControl()
         configureRefreshControl()
-        
     }
 
     private func setupNavigationBarItems(){
