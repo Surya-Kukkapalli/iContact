@@ -7,5 +7,5 @@ This is my effort to recreate and improve upon the default Contacts iOS app by a
 * Additionally, the default contacts app does not allow users to add contacts to a "favorites" list, but instead has that feature in the phone app. 
   * In order to create a unified customer experience, I decided to incorporate this feature to my contacts app.
   
-# Authors
+## Authors
  **Surya Kukkapalli**
