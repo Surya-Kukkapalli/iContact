@@ -28,14 +28,29 @@ class MainViewController: UITableViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         
         // Setting up add button
-        let profileButton = UIButton(type: .contactAdd)
-        profileButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
-        profileButton.contentMode = .scaleAspectFit
-//        profileButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
-        navigationItem.rightBarButtonItem  = UIBarButtonItem(customView: profileButton)
+        let addButton = UIButton(type: .contactAdd)
+        addButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
+        addButton.contentMode = .scaleAspectFit
+        addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        navigationItem.rightBarButtonItem  = UIBarButtonItem(customView: addButton)
+    }
+    
+    @objc func addButtonPressed() {
+        let addContactVC = AddContactViewController()
+        navigationController?.pushViewController(addContactVC, animated: true)
     }
     
 
+}
+
+// MARK: TableView Data Source Methods
+extension MainViewController {
+    
+}
+
+// MARK: TableView Delegate Methods
+extension MainViewController {
+    
 }
 
 // MARK: TableView Animation

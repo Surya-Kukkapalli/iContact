@@ -20,7 +20,9 @@ class TabBarViewController: UITabBarController {
         
         let groupsVC = GroupsViewController()
         let groupsNavController = UINavigationController(rootViewController: groupsVC)
-        groupsNavController.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 1)
+        groupsNavController.tabBarItem = UITabBarItem(title: "Groups", image: UIImage(named: "group"), tag: 1)
+        
+        
         
         let favoritesVC = FavoritesViewController()
         let favoritesNavController = UINavigationController(rootViewController: favoritesVC)
