@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GroupsViewController: UITableViewController {
+class CirclesViewController: UITableViewController {
 
     // TODO: replace with custom search controller like in map app
     let searchController = UISearchController(searchResultsController: nil)
@@ -22,7 +22,7 @@ class GroupsViewController: UITableViewController {
     }
     
     private func setupNavigationBarItems(){
-        navigationItem.title = "Groups"
+        navigationItem.title = "Circles"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -33,12 +33,21 @@ class GroupsViewController: UITableViewController {
         addButton.contentMode = .scaleAspectFit
         //        addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
         navigationItem.rightBarButtonItem  = UIBarButtonItem(customView: addButton)
+        
+        // Setting up edit button
+        let editButton = UIButton(type: .custom)
+        editButton.setTitle("Edit", for: .normal)
+        let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+        editButton.setTitleColor(systemBlue, for: .normal)
+        editButton.contentMode = .scaleAspectFit
+        //        editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: editButton)
     }
 
 }
 
 // MARK: Refresh control
-extension GroupsViewController {
+extension CirclesViewController {
     
     func configureRefreshControl () {
         // Add the refresh control to your UIScrollView object.

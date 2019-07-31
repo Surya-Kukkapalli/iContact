@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Group {
+struct Circle {
     let name: String
     let picture: UIImage?
     let count: Int

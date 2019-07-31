@@ -31,7 +31,7 @@ class FavoritesViewController: UITableViewController {
         let addButton = UIButton(type: .contactAdd)
         addButton.frame = CGRect(x: 0, y: 0, width: 34, height: 34)
         addButton.contentMode = .scaleAspectFit
-        //        addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         
         // Setting up edit button
@@ -42,6 +42,12 @@ class FavoritesViewController: UITableViewController {
         editButton.contentMode = .scaleAspectFit
         //        editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: editButton)
+    }
+    
+    @objc func addButtonPressed() {
+        // TODO: Change later, temporarily this
+        let mainVC = MainViewController()
+        navigationController?.pushViewController(mainVC, animated: true)
     }
     
 }

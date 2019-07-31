@@ -18,9 +18,9 @@ class TabBarViewController: UITabBarController {
         let contactsNavController = UINavigationController(rootViewController: mainVC)
         contactsNavController.tabBarItem = UITabBarItem(tabBarSystemItem: .contacts, tag: 0)
         
-        let groupsVC = GroupsViewController()
-        let groupsNavController = UINavigationController(rootViewController: groupsVC)
-        groupsNavController.tabBarItem = UITabBarItem(title: "Groups", image: UIImage(named: "group"), tag: 1)
+        let circlesVC = CirclesViewController()
+        let circlesNavController = UINavigationController(rootViewController: circlesVC)
+        circlesNavController.tabBarItem = UITabBarItem(title: "Cirlces", image: UIImage(named: "circles"), tag: 1)
         
         
         
@@ -28,7 +28,7 @@ class TabBarViewController: UITabBarController {
         let favoritesNavController = UINavigationController(rootViewController: favoritesVC)
         favoritesNavController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
         
-        viewControllers = [contactsNavController, groupsNavController, favoritesNavController]
+        viewControllers = [contactsNavController, circlesNavController, favoritesNavController]
     }
     
 }

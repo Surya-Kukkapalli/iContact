@@ -8,27 +8,43 @@
 
 import UIKit
 
-class ContactViewController: UIViewController {
+class ContactViewController: UITableViewController {
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        hidesBottomBarWhenPushed = true
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // TODO: Should I hide the navig
-        navigationItem.largeTitleDisplayMode = .never
+        view.backgroundColor = .white
+        
+        setupNavigationBarItems()
         
         // TODO: Watch: https://www.youtube.com/watch?v=zS-CCd4xmRY for custom nav bar
-
-        // Do any additional setup after loading the view.
     }
     
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+// MARK: Navigation
+extension ContactViewController {
+    private func setupNavigationBarItems(){
+        // change below
+        navigationItem.title = "Name"
+        navigationItem.largeTitleDisplayMode = .never
+        
+        // Setting up edit button
+        let editButton = UIButton(type: .custom)
+        editButton.setTitle("Edit", for: .normal)
+        let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+        editButton.setTitleColor(systemBlue, for: .normal)
+        editButton.contentMode = .scaleAspectFit
+        //        editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
     }
-    */
-
 }
