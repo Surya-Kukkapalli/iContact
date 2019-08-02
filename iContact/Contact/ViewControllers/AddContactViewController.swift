@@ -8,6 +8,8 @@
 
 import UIKit
 
+// TODO: configure phone number entry to format as they type
+
 class AddContactViewController: UIViewController {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -20,8 +22,10 @@ class AddContactViewController: UIViewController {
     }
 
     private let picNameGroupView = PicNameGroupView()
-    let doneButton = UIButton(type: .custom)
-    let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+    private let phoneTextFieldView = ContactInfoView()
+    private let emailTextFieldView = ContactInfoView()
+    private let doneButton = UIButton(type: .custom)
+    private let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +33,13 @@ class AddContactViewController: UIViewController {
         setupNavigationBarItems()
         
         view.addSubview(picNameGroupView)
-        setupViews()
+        view.addSubview(phoneTextFieldView)
+        view.addSubview(emailTextFieldView)
         picNameGroupView.configure()
+        phoneTextFieldView.configure(withPlaceholder: "add phone", withKeyboardType: UIKeyboardType.numberPad)
+        emailTextFieldView.configure(withPlaceholder: "add email", withKeyboardType: UIKeyboardType.alphabet)
+        setupViews()
+        
         
         picNameGroupView.firstNameTextField.addTarget(self, action: #selector(changeTextToBlack), for: .editingChanged)
         picNameGroupView.lastNameTextField.addTarget(self, action: #selector(changeTextToBlack), for: .editingChanged)
@@ -42,6 +51,7 @@ class AddContactViewController: UIViewController {
             doneButton.setTitleColor(UIColor.lightGray, for: .normal)
         } else {
             doneButton.setTitleColor(systemBlue, for: .normal)
+            doneButton.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
         }
         textField.textColor = .black
     }
@@ -62,6 +72,19 @@ extension AddContactViewController {
         picNameGroupView.bottomAnchor.constraint(equalTo: safeArea.topAnchor, constant: picNameGroupViewHeight).isActive = true
         picNameGroupView.leftAnchor.constraint(equalTo: safeArea.leftAnchor).isActive = true
         picNameGroupView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
+        
+        phoneTextFieldView.translatesAutoresizingMaskIntoConstraints = false
+        phoneTextFieldView.topAnchor.constraint(equalTo: picNameGroupView.bottomAnchor, constant: 20).isActive = true
+        phoneTextFieldView.leftAnchor.constraint(equalTo: safeArea.leftAnchor, constant: 13).isActive = true
+        phoneTextFieldView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, constant: -20).isActive = true
+        phoneTextFieldView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        
+        emailTextFieldView.translatesAutoresizingMaskIntoConstraints = false
+        emailTextFieldView.topAnchor.constraint(equalTo: phoneTextFieldView.bottomAnchor, constant: 40).isActive = true
+        emailTextFieldView.leftAnchor.constraint(equalTo: safeArea.leftAnchor, constant: 13).isActive = true
+        emailTextFieldView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, constant: -20).isActive = true
+        emailTextFieldView.heightAnchor.constraint(equalToConstant: 48).isActive = true
     }
 }
 
@@ -75,7 +98,6 @@ extension AddContactViewController {
         doneButton.setTitle("Done", for: .normal)
         doneButton.setTitleColor(.lightGray, for: .normal)
         doneButton.contentMode = .scaleAspectFit
-        doneButton.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneButton)
     }
 }
