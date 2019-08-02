@@ -18,6 +18,8 @@
 		6A18C0C122ED5AA40095BFE1 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A18C0C022ED5AA40095BFE1 /* Contact.swift */; };
 		6A18C0C322ED5B0D0095BFE1 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A18C0C222ED5B0D0095BFE1 /* Circle.swift */; };
 		6AC5F69122F0BDF7006A0FFD /* PicNameGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC5F69022F0BDF7006A0FFD /* PicNameGroupView.swift */; };
+		6AC5F69322F1DAA7006A0FFD /* ContactInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC5F69222F1DAA7006A0FFD /* ContactInfoView.swift */; };
+		6AC5F69522F363A2006A0FFD /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC5F69422F363A2006A0FFD /* ContactTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		6A18C0C022ED5AA40095BFE1 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		6A18C0C222ED5B0D0095BFE1 /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		6AC5F69022F0BDF7006A0FFD /* PicNameGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicNameGroupView.swift; sourceTree = "<group>"; };
+		6AC5F69222F1DAA7006A0FFD /* ContactInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoView.swift; sourceTree = "<group>"; };
+		6AC5F69422F363A2006A0FFD /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 				6A18C0C622ED5CD20095BFE1 /* Contact */,
 				6A18C0C722ED5CF00095BFE1 /* Circles */,
 				6A18C0C822ED5CF80095BFE1 /* Favorite */,
+				6AC5F69422F363A2006A0FFD /* ContactTableViewCell.swift */,
 				6A18C0BC22ED30F10095BFE1 /* TabBarViewController.swift */,
 				6A18C0A422ED040C0095BFE1 /* AppDelegate.swift */,
 				6A18C0AB22ED040D0095BFE1 /* Assets.xcassets */,
@@ -158,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				6AC5F69022F0BDF7006A0FFD /* PicNameGroupView.swift */,
+				6AC5F69222F1DAA7006A0FFD /* ContactInfoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -231,7 +237,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AC5F69522F363A2006A0FFD /* ContactTableViewCell.swift in Sources */,
 				6AC5F69122F0BDF7006A0FFD /* PicNameGroupView.swift in Sources */,
+				6AC5F69322F1DAA7006A0FFD /* ContactInfoView.swift in Sources */,
 				6A18C0C322ED5B0D0095BFE1 /* Circle.swift in Sources */,
 				6A18C0A722ED040C0095BFE1 /* MainViewController.swift in Sources */,
 				6A18C0A522ED040C0095BFE1 /* AppDelegate.swift in Sources */,

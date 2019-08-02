@@ -83,10 +83,6 @@ class PicNameGroupView: UIView {
     
     public func configure() {
 //        self.backgroundColor = UIColor(red: 61/255, green: 91/255, blue: 151/255, alpha: 1)
-        configureViews()
-    }
-    
-    private func configureViews() {
         self.addSubview(inputsContainerView)
         configureConstraints()
     }
@@ -105,7 +101,6 @@ class PicNameGroupView: UIView {
         inputsContainerView.addSubview(circlesTextField)
         inputsContainerView.addSubview(separatorView3)
         
-        // Constraints for name field
         firstNameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         firstNameTextField.topAnchor.constraint(equalTo: inputsContainerView.topAnchor).isActive = true
         firstNameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor, constant: -24).isActive = true
@@ -116,25 +111,21 @@ class PicNameGroupView: UIView {
         contactPic.widthAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
         contactPic.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
         
-        // Constraints for separating line under name
         separatorView1.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
         separatorView1.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor).isActive = true
         separatorView1.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         separatorView1.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        // Constraints for email field
         lastNameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         lastNameTextField.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor).isActive = true
         lastNameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor, constant: -24).isActive = true
         lastNameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
         
-        // Constraints for separating line under email
         separatorView2.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
         separatorView2.topAnchor.constraint(equalTo: lastNameTextField.bottomAnchor).isActive = true
         separatorView2.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         separatorView2.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        // Constraints for password field
         circlesTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         circlesTextField.topAnchor.constraint(equalTo: lastNameTextField.bottomAnchor).isActive = true
         circlesTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor, constant: -24).isActive = true

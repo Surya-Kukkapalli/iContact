@@ -9,10 +9,8 @@
 import UIKit
 
 /* Todo:
- *      configure cells
  *      search bar
  *      swipe to add to fav
- *
  */
 
 class MainViewController: UITableViewController {
@@ -20,13 +18,19 @@ class MainViewController: UITableViewController {
     // TODO: replace with custom search controller like in map app
     let searchController = UISearchController(searchResultsController: nil)
     
-    var contacts = [[Contact]]()
+    var contacts = [Contact]()
+    var firstLetterArray = [Character]()
+    let cellId = "ContactTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
         refreshControl = UIRefreshControl()
         configureRefreshControl()
+        
+        createContactsArray()
+        
+        self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: cellId)
     }
     
     @objc func addButtonPressed() {
@@ -40,28 +44,59 @@ class MainViewController: UITableViewController {
 // MARK: TableView Data Source Methods
 extension MainViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-//        return contacts.count
-        return 5
+        for contact in contacts {
+            let firstLetter = contact.lastName!.first!
+            if !firstLetterArray.contains(firstLetter) {
+                firstLetterArray.append(firstLetter)
+            }
+        }
+        
+        return firstLetterArray.count
     }
     
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
-//        return contacts[section].count
-        return 6
+        var numberOfNames: Int = 0
+        for contact in contacts {
+            let sortedFirstLetterArray = firstLetterArray.sorted(by: <)
+            if sortedFirstLetterArray[section] == contact.lastName!.first! {
+                numberOfNames+=1
+            }
+        }
+        return numberOfNames
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Ask for a cell of the appropriate type.
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath)
-        let cell = UITableViewCell()
-        // Configure the cell’s contents with the row and section number.
-        // The Basic cell style guarantees a label view is present in textLabel.
-        cell.textLabel!.text = "Contact \(indexPath.row)"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? ContactTableViewCell else {
+            fatalError("The dequeued cell is not an instance of \(cellId)")
+        }
+        
+        let sortedContacts = contacts.sorted(by: <)
+        let sortedLetterArray = firstLetterArray.sorted(by: <)
+        var shortenedArray = [Contact]()
+        
+        // Creating an array of contacts that have the same last name letter as the section header
+        for contact in sortedContacts {
+            if contact.lastName!.first! == sortedLetterArray[indexPath.section] {
+                shortenedArray.append(contact)
+            }
+        }
+        
+        // Setting the cell to the person's name from the above array depending on which cell. Last name is bold
+        let name = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
+        cell.nameLabel.boldChange(fullText: name, boldText: shortenedArray[indexPath.row].lastName!, ofSize: 15)
+        
         return cell
     }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let alphabetArray = ["A","B","C","D","E"]
-        return alphabetArray[section]
+        let sortedArray = firstLetterArray.sorted(by: <)
+        return String(sortedArray[section])
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
 }
 
@@ -161,4 +196,41 @@ extension MainViewController {
         }
     }
     
+}
+
+extension MainViewController {
+    private func makeFakeContact(firstName: String?, lastName: String?, circle: String?, phone: String?, email: String?, image: UIImage?) -> Contact {
+        return Contact(firstName: firstName, lastName: lastName, circle: circle, phone: phone, email: email, image: image)
+    }
+    
+    private func createContactsArray() {
+        contacts.append(makeFakeContact(firstName: "Frank", lastName: "Underwood", circle: "The White House", phone: "630-418-7666", email: "iampresident@thewhitehouse.gov", image: nil))
+        contacts.append(makeFakeContact(firstName: "Claire", lastName: "Underwood", circle: "The White House", phone: "630-342-4957", email: "iamfirstlady@thewhitehouse.gov", image: nil))
+        contacts.append(makeFakeContact(firstName: "Remy", lastName: "Danton", circle: "Glendon Hill", phone: "603-683-5895", email: "iamprettycool@glendonhill.net", image: nil))
+        contacts.append(makeFakeContact(firstName: "Bob", lastName: "Birch", circle: "The White House", phone: "493-324-3523", email: "irunthehouse@thewhitehouse.gov", image: nil))
+        contacts.append(makeFakeContact(firstName: "Doug", lastName: "Stamper", circle: "The White House", phone: "502-239-2348", email: "ihearttheprez@thewhitehouse.gov", image: nil))
+        contacts.append(makeFakeContact(firstName: "Cathy", lastName: "Durant", circle: "The White House", phone: "432-325-3251", email: "iamsecretaryofstate@thewhitehouse.gov", image: nil))
+        contacts.append(makeFakeContact(firstName: "Seth", lastName: "Grayson", circle: "The White House", phone: "512-324-1413", email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Zoe", lastName: "Barnes", circle: "The Washington Post", phone: "342-513-7653", email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Tom", lastName: "Hammersmidt", circle: "The Washington Post", phone: "352-613-1613", email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Jackie", lastName: "Sharp", circle: "The White House", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Heather", lastName: "Dunbar", circle: "The White House", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Janine", lastName: "Skorsky", circle: "The Washington Post", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Fake", lastName: "Sname", circle: "Glendon Hill", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Fake", lastName: "Dname", circle: "Glendon Hill", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Leann", lastName: "Harvey", circle: "The White House", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Rachel", lastName: "Posner", circle: nil, phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Ed", lastName: "Meechum", circle: nil, phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Garrett", lastName: "Walker", circle: nil, phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Linda", lastName: "Vasquez", circle: nil, phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Lucas", lastName: "Goodwin", circle: "The Washington Post", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Tom", lastName: "Yates", circle: nil, phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Christina", lastName: "Gallager", circle: nil, phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Peter", lastName: "Russo", circle: "The White House", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Raymond", lastName: "Tusk", circle: nil, phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Gavin", lastName: "Orsay", circle: "NSA", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Aiden", lastName: "McAllen", circle: "NSA", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Terry", lastName: "Womack", circle: "The White House", phone: nil, email: nil, image: nil))
+        contacts.append(makeFakeContact(firstName: "Nathan", lastName: "Green", circle: "NSA", phone: nil, email: "topsecretemail.nsa.gov", image: nil))
+    }
 }
