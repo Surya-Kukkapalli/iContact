@@ -51,7 +51,7 @@ class ContactInfoView: UIView {
     private func configureConstraints() {
         infoTextField.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         infoTextField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 36).isActive = true
-        infoTextField.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        infoTextField.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -40).isActive = true
         infoTextField.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -1).isActive = true
         
         separatorView.leftAnchor.constraint(equalTo: infoTextField.leftAnchor, constant: 13).isActive = true

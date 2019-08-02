@@ -18,8 +18,10 @@ class MainViewController: UITableViewController {
     // TODO: replace with custom search controller like in map app
     let searchController = UISearchController(searchResultsController: nil)
     
+    
     var contacts = [Contact]()
     var firstLetterArray = [Character]()
+    var filteredContacts = [Contact]()
     let cellId = "ContactTableViewCell"
     
     override func viewDidLoad() {
@@ -37,7 +39,6 @@ class MainViewController: UITableViewController {
         let addContactVC = AddContactViewController()
         navigationController?.pushViewController(addContactVC, animated: true)
     }
-    
 
 }
 
@@ -57,12 +58,23 @@ extension MainViewController {
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         var numberOfNames: Int = 0
-        for contact in contacts {
-            let sortedFirstLetterArray = firstLetterArray.sorted(by: <)
-            if sortedFirstLetterArray[section] == contact.lastName!.first! {
-                numberOfNames+=1
+        
+        if !isFiltering() {
+            for contact in contacts {
+                let sortedFirstLetterArray = firstLetterArray.sorted(by: <)
+                if sortedFirstLetterArray[section] == contact.lastName!.first! {
+                    numberOfNames+=1
+                }
+            }
+        } else {
+            for contact in filteredContacts {
+                let sortedFirstLetterArray = firstLetterArray.sorted(by: <)
+                if sortedFirstLetterArray[section] == contact.lastName!.first! {
+                    numberOfNames+=1
+                }
             }
         }
+        
         return numberOfNames
     }
     
@@ -84,8 +96,16 @@ extension MainViewController {
         }
         
         // Setting the cell to the person's name from the above array depending on which cell. Last name is bold
-        let name = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
-        cell.nameLabel.boldChange(fullText: name, boldText: shortenedArray[indexPath.row].lastName!, ofSize: 15)
+        var name: String
+        if !isFiltering() {
+            name = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
+            cell.nameLabel.boldChange(fullText: name, boldText: shortenedArray[indexPath.row].lastName!, ofSize: 15)
+        } else {
+            name = filteredContacts[indexPath.row].firstName! + " " + filteredContacts[indexPath.row].lastName!
+            cell.nameLabel.boldChange(fullText: name, boldText: filteredContacts[indexPath.row].lastName!, ofSize: 15)
+        }
+        
+        
         
         return cell
     }
@@ -98,19 +118,37 @@ extension MainViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        // Removes other headers when user searches for contact
+        if tableView.numberOfRows(inSection: section) > 0 {
+            return 24
+        } else {
+            return 0
+        }
+    }
 }
 
 // MARK: TableView Delegate Methods
 extension MainViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let contactVC = ContactViewController(nibName: nil, bundle: nil)
-        // TODO: Pass data over based on indexPath.row
+        let sortedContacts = contacts.sorted(by: <)
+        let sortedLetterArray = firstLetterArray.sorted(by: <)
+        var shortenedArray = [Contact]()
+        // Creating an array of contacts that have the same last name letter as the section header
+        for contact in sortedContacts {
+            if contact.lastName!.first! == sortedLetterArray[indexPath.section] {
+                shortenedArray.append(contact)
+            }
+        }
+        contactVC.navigationItem.title = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
         navigationController?.pushViewController(contactVC, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        // TODO: FIGURE OUT HOW TO DO THIS
         let confirmDelete = UIAlertController()
         confirmDelete.title = "Are you sure you want to delete this contact?"
         confirmDelete.message = "This cannot be undone."
@@ -156,7 +194,12 @@ extension MainViewController {
     private func setupNavigationBarItems(){
         navigationItem.title = "Contacts"
         navigationController?.navigationBar.prefersLargeTitles = true
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
         navigationItem.searchController = searchController
+        // If user goes to different view controller, search bar will disappear
+        definesPresentationContext = true
         navigationItem.hidesSearchBarWhenScrolling = false
         
         // Setting up add button
@@ -187,7 +230,7 @@ extension MainViewController {
     }
     
     @objc func handleRefreshControl() {
-        // TODO: Update conten
+        // TODO: Update content
         print("hello world")
         
         // Dismiss the refresh control.
@@ -198,6 +241,35 @@ extension MainViewController {
     
 }
 
+// MARK: Search Bar methods
+extension MainViewController: UISearchResultsUpdating {
+    
+    // UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    // Private instance methods
+    private func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        filteredContacts = contacts.filter({ ( contact : Contact ) -> Bool in
+            // TODO: figure out how to do by last name too
+            return contact.firstName!.lowercased().contains(searchText.lowercased())
+        })
+        
+        tableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
+}
+
+// MARK: Making data
 extension MainViewController {
     private func makeFakeContact(firstName: String?, lastName: String?, circle: String?, phone: String?, email: String?, image: UIImage?) -> Contact {
         return Contact(firstName: firstName, lastName: lastName, circle: circle, phone: phone, email: email, image: image)

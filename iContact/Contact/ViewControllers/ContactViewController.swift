@@ -34,8 +34,6 @@ class ContactViewController: UITableViewController {
 // MARK: Navigation
 extension ContactViewController {
     private func setupNavigationBarItems(){
-        // change below
-        navigationItem.title = "Name"
         navigationItem.largeTitleDisplayMode = .never
         
         // Setting up edit button
