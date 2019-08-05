@@ -105,8 +105,6 @@ extension MainViewController {
             cell.nameLabel.boldChange(fullText: name, boldText: filteredContacts[indexPath.row].lastName!, ofSize: 15)
         }
         
-        
-        
         return cell
     }
     
@@ -116,7 +114,7 @@ extension MainViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 45
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

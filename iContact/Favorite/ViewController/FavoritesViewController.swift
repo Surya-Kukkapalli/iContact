@@ -12,6 +12,7 @@ class FavoritesViewController: UITableViewController {
 
     // TODO: replace with custom search controller like in map app
     let searchController = UISearchController(searchResultsController: nil)
+    var favoritesArray = [Contact]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -13,13 +13,15 @@ class ContactInfoView: UIView {
     let addButtonImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "add")
+//        image.blink()
+        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
     let infoTextField: UITextField = {
         let field = UITextField()
         field.textColor = .lightGray
-        field.font = UIFont.systemFont(ofSize: 17)
+        field.font = UIFont.systemFont(ofSize: 15)
         field.textAlignment = .left
         field.clearButtonMode = .whileEditing
         field.textColor = .black
@@ -35,12 +37,7 @@ class ContactInfoView: UIView {
     }()
     
     public func configure(withPlaceholder: String, withKeyboardType: UIKeyboardType) {
-        // TODO: change color of placeholder text to black
-        let changedString: NSString = withPlaceholder as NSString
-        let range = (changedString).range(of: withPlaceholder)
-        let attribute = NSMutableAttributedString.init(string: withPlaceholder)
-        attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black, range: range)
-        infoTextField.placeholder = attribute.string
+        infoTextField.text = withPlaceholder
         infoTextField.keyboardType = withKeyboardType
         self.addSubview(infoTextField)
         self.addSubview(separatorView)
@@ -54,15 +51,25 @@ class ContactInfoView: UIView {
         infoTextField.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -40).isActive = true
         infoTextField.heightAnchor.constraint(equalTo: self.heightAnchor, constant: -1).isActive = true
         
-        separatorView.leftAnchor.constraint(equalTo: infoTextField.leftAnchor, constant: 13).isActive = true
+        separatorView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
         separatorView.topAnchor.constraint(equalTo: infoTextField.bottomAnchor).isActive = true
         separatorView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        addButtonImage.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        addButtonImage.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        addButtonImage.rightAnchor.constraint(equalTo: infoTextField.leftAnchor).isActive = true
-        addButtonImage.bottomAnchor.constraint(equalTo: infoTextField.bottomAnchor).isActive = true
+        addButtonImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 7).isActive = true
+        addButtonImage.leftAnchor.constraint(equalTo: self.leftAnchor,constant: 7).isActive = true
+        addButtonImage.rightAnchor.constraint(equalTo: infoTextField.leftAnchor, constant: -7).isActive = true
+        addButtonImage.bottomAnchor.constraint(equalTo: infoTextField.bottomAnchor,constant: -7).isActive = true
+        
+        addButtonImage.frame = CGRect(x: 0, y: 0, width: 27, height: 27)
+        addButtonImage.contentMode = .scaleAspectFit
     }
     
+}
+
+extension UIImageView {
+    func blink() {
+        self.alpha = 0.2
+        UIImageView.animate(withDuration: 1, delay: 0.0, options: [.curveLinear, .repeat, .autoreverse], animations: {self.alpha = 1.0}, completion: nil)
+    }
 }

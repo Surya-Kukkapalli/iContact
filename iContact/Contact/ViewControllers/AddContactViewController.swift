@@ -38,12 +38,34 @@ class AddContactViewController: UIViewController {
         picNameGroupView.configure()
         phoneTextFieldView.configure(withPlaceholder: "add phone", withKeyboardType: UIKeyboardType.numberPad)
         emailTextFieldView.configure(withPlaceholder: "add email", withKeyboardType: UIKeyboardType.alphabet)
+        // Clears text field when user clicks
+        phoneTextFieldView.infoTextField.addTarget(self, action: #selector(phoneFieldDidBeginEditing), for: .editingDidBegin)
+        emailTextFieldView.infoTextField.addTarget(self, action: #selector(emailFieldDidBeginEditing), for: .editingDidBegin)
         setupViews()
-        
         
         picNameGroupView.firstNameTextField.addTarget(self, action: #selector(changeTextToBlack), for: .editingChanged)
         picNameGroupView.lastNameTextField.addTarget(self, action: #selector(changeTextToBlack), for: .editingChanged)
         picNameGroupView.circlesTextField.addTarget(self, action: #selector(changeTextToBlack), for: .editingChanged)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = nil
+    }
+    
+    @objc public func phoneFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+        textField.placeholder = "Phone"
+    }
+    
+    @objc public func emailFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+        textField.placeholder = "Email"
     }
     
     @objc private func changeTextToBlack(_ textField: UITextField) {
@@ -99,5 +121,6 @@ extension AddContactViewController {
         doneButton.setTitleColor(.lightGray, for: .normal)
         doneButton.contentMode = .scaleAspectFit
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneButton)
+        
     }
 }

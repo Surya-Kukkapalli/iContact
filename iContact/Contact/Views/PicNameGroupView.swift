@@ -20,9 +20,10 @@ class PicNameGroupView: UIView {
     let contactPic: UIImageView = {
         let pic = UIImageView()
         pic.backgroundColor = .gray
-        pic.layer.borderWidth = 1
-        pic.layer.borderColor = UIColor.lightGray.cgColor
+//        pic.layer.borderWidth = 1.0
+//        pic.layer.borderColor = UIColor.lightGray.cgColor
         pic.roundedImage()
+        pic.image = UIImage(named: "profile_pic")
         pic.translatesAutoresizingMaskIntoConstraints = false
         return pic
     }()
@@ -108,8 +109,8 @@ class PicNameGroupView: UIView {
         
         contactPic.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 12).isActive = true
         contactPic.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        contactPic.widthAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
-        contactPic.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3).isActive = true
+        contactPic.widthAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 0.38).isActive = true
+        contactPic.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 0.38).isActive = true
         
         separatorView1.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
         separatorView1.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor).isActive = true
@@ -156,7 +157,11 @@ extension UITextField {
 extension UIImageView {
     
     func roundedImage() {
-        self.layer.cornerRadius = self.frame.size.width / 2
+//        self.layer.cornerRadius = self.frame.size.width / 2
+//        self.clipsToBounds = true
+        self.contentMode = UIView.ContentMode.scaleAspectFill
+        self.layer.cornerRadius = self.frame.height / 2
+        self.layer.masksToBounds = false
         self.clipsToBounds = true
     }
     

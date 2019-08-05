@@ -25,8 +25,6 @@ class ContactViewController: UITableViewController {
         view.backgroundColor = .white
         
         setupNavigationBarItems()
-        
-        // TODO: Watch: https://www.youtube.com/watch?v=zS-CCd4xmRY for custom nav bar
     }
     
 }
