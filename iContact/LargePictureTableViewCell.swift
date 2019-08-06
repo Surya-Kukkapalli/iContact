@@ -8,13 +8,10 @@
 
 import UIKit
 
-class MyCardTableViewCell: UITableViewCell {
+class LargePictureTableViewCell: UITableViewCell {
     
     public let profilePic: UIImageView = {
         let pic = UIImageView()
-        pic.backgroundColor = .gray
-        pic.roundedImage()
-        pic.image = UIImage(named: "profile_pic")
         pic.layer.cornerRadius = 35
         pic.layer.masksToBounds = true
         pic.translatesAutoresizingMaskIntoConstraints = false
@@ -34,10 +31,9 @@ class MyCardTableViewCell: UITableViewCell {
     public let descriptionLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = .systemFont(ofSize: 14)
+        label.font = .systemFont(ofSize: 13)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "My Card"
         label.superview?.bringSubviewToFront(label)
         return label
     }()
@@ -48,13 +44,9 @@ class MyCardTableViewCell: UITableViewCell {
         addSubview(descriptionLabel)
         addSubview(profilePic)
         
-//        contentView.addSubview(nameLabel)
-//        contentView.addSubview(descriptionLabel)
-//        contentView.addSubview(profilePic)
         
         configureContraints()
         
-//        self.superview?.bringSubviewToFront(self)
     }
     
     required init?(coder aDecoder: NSCoder) {

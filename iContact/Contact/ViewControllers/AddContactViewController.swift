@@ -24,7 +24,7 @@ class AddContactViewController: UIViewController {
     private let picNameGroupView = PicNameGroupView()
     private let phoneTextFieldView = ContactInfoView()
     private let emailTextFieldView = ContactInfoView()
-    private let doneButton = UIButton(type: .custom)
+    private let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonPressed))
     private let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
     
     override func viewDidLoad() {
@@ -70,10 +70,11 @@ class AddContactViewController: UIViewController {
     
     @objc private func changeTextToBlack(_ textField: UITextField) {
         if textField.text == "" {
-            doneButton.setTitleColor(UIColor.lightGray, for: .normal)
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            self.navigationItem.rightBarButtonItem?.tintColor = .lightGray
         } else {
-            doneButton.setTitleColor(systemBlue, for: .normal)
-            doneButton.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+            self.navigationItem.rightBarButtonItem?.tintColor = systemBlue
         }
         textField.textColor = .black
     }
@@ -117,11 +118,8 @@ extension AddContactViewController {
         navigationItem.largeTitleDisplayMode = .never
         
         // Setting up done button
-        doneButton.setTitle("Done", for: .normal)
-        doneButton.setTitleColor(.lightGray, for: .normal)
-        doneButton.contentMode = .scaleAspectFit
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: doneButton)
-        
+        self.navigationItem.rightBarButtonItem = doneButton
+        self.navigationItem.rightBarButtonItem?.tintColor = .lightGray
     }
 }
 

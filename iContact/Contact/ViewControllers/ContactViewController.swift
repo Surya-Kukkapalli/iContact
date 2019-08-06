@@ -27,6 +27,10 @@ class ContactViewController: UITableViewController {
         setupNavigationBarItems()
     }
     
+    @objc func showEditing(_ sender: UIBarButtonItem) {
+        print("editing")
+    }
+    
 }
 
 // MARK: Navigation
@@ -35,12 +39,7 @@ extension ContactViewController {
         navigationItem.largeTitleDisplayMode = .never
         
         // Setting up edit button
-        let editButton = UIButton(type: .custom)
-        editButton.setTitle("Edit", for: .normal)
-        let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
-        editButton.setTitleColor(systemBlue, for: .normal)
-        editButton.contentMode = .scaleAspectFit
-        //        editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(showEditing))
+        self.navigationItem.rightBarButtonItem = editButton
     }
 }

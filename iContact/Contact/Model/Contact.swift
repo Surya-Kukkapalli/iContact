@@ -13,7 +13,7 @@ struct Contact {
     let firstName: String?
     let lastName: String?
     // make type Circle?
-    let circle: String?
+    let circle: Circle?
     let phone: String?
     let email: String?
     let image: UIImage?

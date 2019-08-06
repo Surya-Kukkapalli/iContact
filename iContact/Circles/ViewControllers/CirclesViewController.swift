@@ -10,17 +10,134 @@ import UIKit
 
 class CirclesViewController: UITableViewController {
 
-    // TODO: replace with custom search controller like in map app
     let searchController = UISearchController(searchResultsController: nil)
+    let mainVC = MainViewController()
+    var contacts = [Contact]()
+    var circles = [Circle]()
+    let circleId = "LargePictureTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
         
+        contacts = mainVC.createContactsArray()
+        
+        // TODO: FIGURE OUT HOW TO GET MEMBER COUNT
+        for contact in contacts {
+            // If the contact has a circle
+            if var optionalCircle = contact.circle {
+                if !circles.contains(optionalCircle) {
+                    optionalCircle.memberCount = 1
+                    circles.append(optionalCircle)
+                } else {
+                    if let i = circles.firstIndex(where: {$0 == optionalCircle}) {
+                        circles[i].memberCount += 1
+                    }
+                }
+            }
+        }
+        
         refreshControl = UIRefreshControl()
         configureRefreshControl()
+        
+        self.tableView.register(LargePictureTableViewCell.self, forCellReuseIdentifier: circleId)
+
     }
     
+    @objc func showEditing(_ sender: UIBarButtonItem) {
+        if self.tableView.isEditing {
+            self.tableView.isEditing = false
+            self.navigationItem.leftBarButtonItem?.title = "Edit"
+        } else {
+            self.tableView.isEditing = true
+            self.navigationItem.leftBarButtonItem?.title = "Done"
+        }
+        //        self.tableView.reloadData()
+    }
+
+}
+
+// MARK: TableView Data Source Methods
+extension CirclesViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView,
+                            numberOfRowsInSection section: Int) -> Int {
+        return circles.count
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let circleCell = tableView.dequeueReusableCell(withIdentifier: circleId) as? LargePictureTableViewCell else {
+            fatalError("The dequeued cell is not an instance of \(circleId)")
+        }
+        
+        var sortedCircles = circles.sorted(by: {$0.name < $1.name})
+        
+        circleCell.nameLabel.text = sortedCircles[indexPath.row].name
+        circleCell.descriptionLabel.text = String(sortedCircles[indexPath.row].memberCount) + " members"
+        circleCell.profilePic.image = UIImage(named: "circles")
+        
+        return circleCell
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+    
+}
+
+// MARK: TableView Delegate Methods
+extension CirclesViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        var sortedCircles = circles.sorted(by: {$0.name < $1.name})
+        let detailVC = CircleDetailViewController(nibName: nil, bundle: nil)
+        let rowCircleName = sortedCircles[indexPath.row].name
+        for contact in contacts {
+            if let loopCircleName = contact.circle?.name {
+                if rowCircleName == loopCircleName {
+                    detailVC.circleName = rowCircleName
+                    detailVC.contacts.append(contact)
+                }
+            }
+        }
+        
+        detailVC.navigationItem.title = rowCircleName
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let confirmDelete = UIAlertController()
+        confirmDelete.title = "Are you sure you want to delete this contact?"
+        confirmDelete.message = "This cannot be undone."
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action: UIContextualAction, sourceView: UIView, actionPerformed: @escaping (Bool) -> Void) in
+            
+            // configuring actions inside here so actionPerformed can be evaluated upon alert selection
+            let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { action in
+                actionPerformed(true)
+            })
+            let noAction = UIAlertAction(title: "No", style: .cancel, handler: { action in
+                actionPerformed(false)
+            })
+            confirmDelete.addAction(yesAction)
+            confirmDelete.addAction(noAction)
+            self.present(confirmDelete, animated: true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+        
+    }
+}
+
+// MARK: Navigation
+extension CirclesViewController {
     private func setupNavigationBarItems(){
         navigationItem.title = "Circles"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -35,15 +152,9 @@ class CirclesViewController: UITableViewController {
         navigationItem.rightBarButtonItem  = UIBarButtonItem(customView: addButton)
         
         // Setting up edit button
-        let editButton = UIButton(type: .custom)
-        editButton.setTitle("Edit", for: .normal)
-        let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
-        editButton.setTitleColor(systemBlue, for: .normal)
-        editButton.contentMode = .scaleAspectFit
-        //        editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: editButton)
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(showEditing))
+        self.navigationItem.leftBarButtonItem = editButton
     }
-
 }
 
 // MARK: Refresh control

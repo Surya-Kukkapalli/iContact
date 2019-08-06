@@ -22,6 +22,27 @@ class FavoritesViewController: UITableViewController {
         configureRefreshControl()
     }
     
+    @objc func addButtonPressed() {
+        // TODO: Change later, temporarily this
+        let mainVC = MainViewController()
+        navigationController?.pushViewController(mainVC, animated: true)
+    }
+    
+    @objc func showEditing(_ sender: UIBarButtonItem) {
+        if self.tableView.isEditing {
+            self.tableView.isEditing = false
+            self.navigationItem.leftBarButtonItem?.title = "Edit"
+        } else {
+            self.tableView.isEditing = true
+            self.navigationItem.leftBarButtonItem?.title = "Done"
+        }
+        //        self.tableView.reloadData()
+    }
+    
+}
+
+// MARK: Navigation
+extension FavoritesViewController {
     private func setupNavigationBarItems(){
         navigationItem.title = "Favorites"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -36,21 +57,9 @@ class FavoritesViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         
         // Setting up edit button
-        let editButton = UIButton(type: .custom)
-        editButton.setTitle("Edit", for: .normal)
-        let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
-        editButton.setTitleColor(systemBlue, for: .normal)
-        editButton.contentMode = .scaleAspectFit
-        //        editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: editButton)
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(showEditing))
+        self.navigationItem.leftBarButtonItem = editButton
     }
-    
-    @objc func addButtonPressed() {
-        // TODO: Change later, temporarily this
-        let mainVC = MainViewController()
-        navigationController?.pushViewController(mainVC, animated: true)
-    }
-    
 }
 
 // MARK: Refresh control

@@ -8,8 +8,13 @@
 
 import UIKit
 
-struct Circle {
-    let name: String
-    let picture: UIImage?
-    let count: Int
+struct Circle: Equatable {
+    
+    static func == (lhs: Circle, rhs: Circle) -> Bool {
+        return lhs.name == rhs.name
+    }
+    
+    var name: String
+    var picture: UIImage?
+    var memberCount: Int
 }
