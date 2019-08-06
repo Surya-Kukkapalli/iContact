@@ -8,14 +8,7 @@
 
 import UIKit
 
-struct Contact: Comparable {
-    static func < (lhs: Contact, rhs: Contact) -> Bool {
-        if lhs.lastName!.first! != rhs.lastName!.first! {
-            return lhs.lastName!.first! < rhs.lastName!.first!
-        } else {
-            return lhs.firstName!.first! < rhs.firstName!.first!
-        }
-    }
+struct Contact {
     
     let firstName: String?
     let lastName: String?
@@ -25,3 +18,4 @@ struct Contact: Comparable {
     let email: String?
     let image: UIImage?
 }
+

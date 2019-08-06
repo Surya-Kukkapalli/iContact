@@ -23,7 +23,7 @@ class PicNameGroupView: UIView {
 //        pic.layer.borderWidth = 1.0
 //        pic.layer.borderColor = UIColor.lightGray.cgColor
         pic.roundedImage()
-        pic.image = UIImage(named: "profile_pic")
+        pic.image = UIImage(named: "add_photo")
         pic.translatesAutoresizingMaskIntoConstraints = false
         return pic
     }()

@@ -9,20 +9,18 @@
 import UIKit
 
 /* Todo:
- *      search bar
  *      swipe to add to fav
  */
 
 class MainViewController: UITableViewController {
 
-    // TODO: replace with custom search controller like in map app
     let searchController = UISearchController(searchResultsController: nil)
-    
     
     var contacts = [Contact]()
     var firstLetterArray = [Character]()
     var filteredContacts = [Contact]()
     let cellId = "ContactTableViewCell"
+    let cardId = "MyCardTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +30,26 @@ class MainViewController: UITableViewController {
         
         createContactsArray()
         
+        self.tableView.register(MyCardTableViewCell.self, forCellReuseIdentifier: cardId)
         self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: cellId)
+    
     }
+
     
     @objc func addButtonPressed() {
         let addContactVC = AddContactViewController()
         navigationController?.pushViewController(addContactVC, animated: true)
+    }
+    
+    @objc func showEditing(_ sender: UIBarButtonItem) {
+        if self.tableView.isEditing {
+            self.tableView.isEditing = false
+            self.navigationItem.leftBarButtonItem?.title = "Edit"
+        } else {
+            self.tableView.isEditing = true
+            self.navigationItem.leftBarButtonItem?.title = "Done"
+        }
+//        self.tableView.reloadData()
     }
 
 }
@@ -52,69 +64,97 @@ extension MainViewController {
             }
         }
         
-        return firstLetterArray.count
+        return firstLetterArray.count + 1
     }
     
     override func tableView(_ tableView: UITableView,
                             numberOfRowsInSection section: Int) -> Int {
         var numberOfNames: Int = 0
         
-        if !isFiltering() {
-            for contact in contacts {
-                let sortedFirstLetterArray = firstLetterArray.sorted(by: <)
-                if sortedFirstLetterArray[section] == contact.lastName!.first! {
-                    numberOfNames+=1
-                }
+        if section == 0 {
+            if isFiltering() {
+                return 0
+            } else {
+                return 1
             }
         } else {
-            for contact in filteredContacts {
-                let sortedFirstLetterArray = firstLetterArray.sorted(by: <)
-                if sortedFirstLetterArray[section] == contact.lastName!.first! {
-                    numberOfNames+=1
+            if !isFiltering() {
+                for contact in contacts {
+                    let sortedFirstLetterArray = firstLetterArray.sorted(by: <)
+                    if sortedFirstLetterArray[section - 1] == contact.lastName!.first! {
+                        numberOfNames+=1
+                    }
+                }
+            } else {
+                for contact in filteredContacts {
+                    let sortedFirstLetterArray = firstLetterArray.sorted(by: <)
+                    if sortedFirstLetterArray[section - 1] == contact.lastName!.first! {
+                        numberOfNames+=1
+                    }
                 }
             }
+            
+            return numberOfNames
         }
         
-        return numberOfNames
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? ContactTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as? ContactTableViewCell else {
             fatalError("The dequeued cell is not an instance of \(cellId)")
         }
-        
-        let sortedContacts = contacts.sorted(by: <)
-        let sortedLetterArray = firstLetterArray.sorted(by: <)
-        var shortenedArray = [Contact]()
-        
-        // Creating an array of contacts that have the same last name letter as the section header
-        for contact in sortedContacts {
-            if contact.lastName!.first! == sortedLetterArray[indexPath.section] {
-                shortenedArray.append(contact)
-            }
+        guard let myCell = tableView.dequeueReusableCell(withIdentifier: cardId) as? MyCardTableViewCell else {
+            fatalError("The dequeued cell is not an instance of \(cardId)")
         }
         
-        // Setting the cell to the person's name from the above array depending on which cell. Last name is bold
-        var name: String
-        if !isFiltering() {
-            name = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
-            cell.nameLabel.boldChange(fullText: name, boldText: shortenedArray[indexPath.row].lastName!, ofSize: 15)
+        if indexPath.section == 0 {
+            myCell.nameLabel.text = "Surya Kukkapalli"
+            cell.superview?.sendSubviewToBack(cell)
+            return myCell
         } else {
-            name = filteredContacts[indexPath.row].firstName! + " " + filteredContacts[indexPath.row].lastName!
-            cell.nameLabel.boldChange(fullText: name, boldText: filteredContacts[indexPath.row].lastName!, ofSize: 15)
+            let sortedContacts = contacts.sorted(by: { $0.lastName! < $1.lastName! })
+            let sortedLetterArray = firstLetterArray.sorted(by: <)
+            var shortenedArray = [Contact]()
+            
+            // Creating an array of contacts that have the same last name letter as the section header
+            for contact in sortedContacts {
+                if contact.lastName!.first! == sortedLetterArray[indexPath.section - 1] {
+                    shortenedArray.append(contact)
+                }
+            }
+            
+            // Setting the cell to the person's name from the above array depending on which cell. Last name is bold
+            var name: String
+            if !isFiltering() {
+                name = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
+                cell.nameLabel.boldChange(fullText: name, boldText: shortenedArray[indexPath.row].lastName!, ofSize: 15)
+            } else {
+                name = filteredContacts[indexPath.row].firstName! + " " + filteredContacts[indexPath.row].lastName!
+                cell.nameLabel.boldChange(fullText: name, boldText: filteredContacts[indexPath.row].lastName!, ofSize: 15)
+            }
+            
+            return cell
         }
         
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let sortedArray = firstLetterArray.sorted(by: <)
-        return String(sortedArray[section])
+        if section == 0 {
+            return nil
+        } else {
+            let sortedArray = firstLetterArray.sorted(by: <)
+            return String(sortedArray[section - 1])
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 45
+        if indexPath.section == 0 {
+            return 80
+        } else {
+            return 45
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -132,21 +172,37 @@ extension MainViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let contactVC = ContactViewController(nibName: nil, bundle: nil)
-        let sortedContacts = contacts.sorted(by: <)
+        let sortedContacts = contacts.sorted(by: { $0.lastName! < $1.lastName! })
         let sortedLetterArray = firstLetterArray.sorted(by: <)
         var shortenedArray = [Contact]()
-        // Creating an array of contacts that have the same last name letter as the section header
-        for contact in sortedContacts {
-            if contact.lastName!.first! == sortedLetterArray[indexPath.section] {
-                shortenedArray.append(contact)
+        
+        if indexPath.section == 0 {
+            contactVC.navigationItem.title = "Surya Kukkapalli"
+            navigationController?.pushViewController(contactVC, animated: true)
+        } else {
+            // Creating an array of contacts that have the same last name letter as the section header
+            for contact in sortedContacts {
+                if contact.lastName!.first! == sortedLetterArray[indexPath.section - 1] {
+                    shortenedArray.append(contact)
+                }
             }
+            contactVC.navigationItem.title = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
+            navigationController?.pushViewController(contactVC, animated: true)
         }
-        contactVC.navigationItem.title = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
-        navigationController?.pushViewController(contactVC, animated: true)
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.section == 0 {
+            return false
+        } else {
+            return true
+        }
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
+   
         let confirmDelete = UIAlertController()
         confirmDelete.title = "Are you sure you want to delete this contact?"
         confirmDelete.message = "This cannot be undone."
@@ -168,7 +224,10 @@ extension MainViewController {
             confirmDelete.addAction(noAction)
             self.present(confirmDelete, animated: true)
         }
+        
         return UISwipeActionsConfiguration(actions: [favoriteAction,deleteAction])
+        
+
     }
 //        let completeAction = UIContextualAction(style: .normal, title: "Favorite") { (action:UIContextualAction, sourceView:UIView, actionPerformed:(Bool) -> Void) in
 //            if let dbn = self.schools[indexPath.row].dbn {
@@ -208,13 +267,15 @@ extension MainViewController {
         navigationItem.rightBarButtonItem  = UIBarButtonItem(customView: addButton)
         
         // Setting up edit button
-        let editButton = UIButton(type: .custom)
-        editButton.setTitle("Edit", for: .normal)
-        let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
-        editButton.setTitleColor(systemBlue, for: .normal)
-        editButton.contentMode = .scaleAspectFit
-        //        editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: editButton)
+        let editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(showEditing))
+        self.navigationItem.leftBarButtonItem = editButton
+//        let editButton = UIButton(type: .custom)
+//        editButton.setTitle("Edit", for: .normal)
+//        let systemBlue = UIColor.init(red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
+//        editButton.setTitleColor(systemBlue, for: .normal)
+//        editButton.contentMode = .scaleAspectFit
+//        //        editButton.addTarget(self, action: #selector(editButtonPressed), for: .touchUpInside)
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: editButton)
     }
 }
 
@@ -228,9 +289,8 @@ extension MainViewController {
     }
     
     @objc func handleRefreshControl() {
-        // TODO: Update content
-        print("hello world")
-        
+//        self.tableView.reloadData()
+        print("hello, world")
         // Dismiss the refresh control.
         DispatchQueue.main.async {
             self.refreshControl?.endRefreshing()

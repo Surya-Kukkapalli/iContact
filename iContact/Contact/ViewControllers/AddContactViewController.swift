@@ -124,3 +124,28 @@ extension AddContactViewController {
         
     }
 }
+
+// TODO: get phone number and email formatting to work
+extension String {
+    
+    public func phoneNumberInputFormatting() -> String {
+        var number: NSNumber!
+        let formatter = NumberFormatter()
+        formatter.maximumIntegerDigits = 10
+        formatter.minimumIntegerDigits = 10
+        
+        var amountWithPrefix = self
+        let regex = try! NSRegularExpression(pattern: "[^0-9]", options: .caseInsensitive)
+        
+        amountWithPrefix = regex.stringByReplacingMatches(in: amountWithPrefix, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(location: 0, length: self.count), withTemplate: "")
+        
+        let num = (amountWithPrefix as NSString).intValue
+        number = NSNumber(value: num)
+        
+        guard number != 0 as NSNumber else {
+            return ""
+        }
+        
+        return formatter.string(from: number)!
+    }
+}

@@ -36,9 +36,15 @@ class ContactTableViewCell: UITableViewCell {
     
     private func configureContraints() {
         nameLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        nameLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 15).isActive = true
         nameLabel.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         nameLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        
+        // TODO: move text over when in editing mode
+        if self.isEditing {
+            nameLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 35).isActive = true
+        } else {
+            nameLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 15).isActive = true
+        }
     }
     
 }
