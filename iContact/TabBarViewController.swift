@@ -22,8 +22,6 @@ class TabBarViewController: UITabBarController {
         let circlesNavController = UINavigationController(rootViewController: circlesVC)
         circlesNavController.tabBarItem = UITabBarItem(title: "Cirlces", image: UIImage(named: "circles"), tag: 1)
         
-        
-        
         let favoritesVC = FavoritesViewController()
         let favoritesNavController = UINavigationController(rootViewController: favoritesVC)
         favoritesNavController.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)

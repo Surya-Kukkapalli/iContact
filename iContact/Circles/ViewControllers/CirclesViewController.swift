@@ -79,7 +79,15 @@ extension CirclesViewController {
         
         circleCell.nameLabel.text = sortedCircles[indexPath.row].name
         circleCell.descriptionLabel.text = String(sortedCircles[indexPath.row].memberCount) + " members"
-        circleCell.profilePic.image = UIImage(named: "circles")
+        if sortedCircles[indexPath.row].name == "The Washington Post" {
+            circleCell.profilePic.image = UIImage(named: "washington_post")
+        } else if sortedCircles[indexPath.row].name == "The White House" {
+            circleCell.profilePic.image = UIImage(named: "the_white_house")
+        } else if sortedCircles[indexPath.row].name == "NSA" {
+            circleCell.profilePic.image = UIImage(named: "nsa")
+        } else {
+            circleCell.profilePic.image = UIImage(named: "circles")
+        }
         
         return circleCell
         
@@ -114,7 +122,7 @@ extension CirclesViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let confirmDelete = UIAlertController()
-        confirmDelete.title = "Are you sure you want to delete this contact?"
+        confirmDelete.title = "Are you sure you want to delete this circle?"
         confirmDelete.message = "This cannot be undone."
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action: UIContextualAction, sourceView: UIView, actionPerformed: @escaping (Bool) -> Void) in

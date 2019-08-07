@@ -21,6 +21,7 @@ class MainViewController: UITableViewController {
     var filteredContacts = [Contact]()
     let cellId = "ContactTableViewCell"
     let cardId = "LargePictureTableViewCell"
+    var favoritesArray = [Contact]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,11 @@ class MainViewController: UITableViewController {
         self.tableView.register(LargePictureTableViewCell.self, forCellReuseIdentifier: cardId)
         self.tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: cellId)
     
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     
@@ -209,6 +215,8 @@ extension MainViewController {
         confirmDelete.message = "This cannot be undone."
         
         let favoriteAction = UIContextualAction(style: .normal, title: "Favorite") { (action: UIContextualAction, sourceView: UIView, actionPerformed: (Bool) -> Void) in
+            let sortedContacts = self.contacts.sorted(by: { $0.lastName! < $1.lastName! })
+            self.favoritesArray.append(sortedContacts[indexPath.row])
             actionPerformed(true)
         }
         
