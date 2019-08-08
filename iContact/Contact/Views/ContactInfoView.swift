@@ -56,10 +56,10 @@ class ContactInfoView: UIView {
         separatorView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        addButtonImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 7).isActive = true
-        addButtonImage.leftAnchor.constraint(equalTo: self.leftAnchor,constant: 7).isActive = true
-        addButtonImage.rightAnchor.constraint(equalTo: infoTextField.leftAnchor, constant: -7).isActive = true
-        addButtonImage.bottomAnchor.constraint(equalTo: infoTextField.bottomAnchor,constant: -7).isActive = true
+        addButtonImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 4).isActive = true
+        addButtonImage.leftAnchor.constraint(equalTo: self.leftAnchor,constant: 4).isActive = true
+        addButtonImage.rightAnchor.constraint(equalTo: infoTextField.leftAnchor, constant: -4).isActive = true
+        addButtonImage.bottomAnchor.constraint(equalTo: infoTextField.bottomAnchor,constant: -4).isActive = true
         
         addButtonImage.frame = CGRect(x: 0, y: 0, width: 27, height: 27)
         addButtonImage.contentMode = .scaleAspectFit

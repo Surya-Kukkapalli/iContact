@@ -10,6 +10,7 @@
 		6A04724522F8A5580028E35A /* LargePictureTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A04724422F8A5580028E35A /* LargePictureTableViewCell.swift */; };
 		6A04724722F9F48E0028E35A /* CircleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A04724622F9F48E0028E35A /* CircleDetailViewController.swift */; };
 		6A04724922F9F4DB0028E35A /* ReusableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A04724822F9F4DB0028E35A /* ReusableTableViewController.swift */; };
+		6A04724B22FC62A60028E35A /* ToneInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A04724A22FC62A60028E35A /* ToneInfoView.swift */; };
 		6A18C0A522ED040C0095BFE1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A18C0A422ED040C0095BFE1 /* AppDelegate.swift */; };
 		6A18C0A722ED040C0095BFE1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A18C0A622ED040C0095BFE1 /* MainViewController.swift */; };
 		6A18C0AC22ED040D0095BFE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A18C0AB22ED040D0095BFE1 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 		6A04724422F8A5580028E35A /* LargePictureTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargePictureTableViewCell.swift; sourceTree = "<group>"; };
 		6A04724622F9F48E0028E35A /* CircleDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleDetailViewController.swift; sourceTree = "<group>"; };
 		6A04724822F9F4DB0028E35A /* ReusableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTableViewController.swift; sourceTree = "<group>"; };
+		6A04724A22FC62A60028E35A /* ToneInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneInfoView.swift; sourceTree = "<group>"; };
 		6A18C0A122ED040C0095BFE1 /* iContact.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iContact.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A18C0A422ED040C0095BFE1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A18C0A622ED040C0095BFE1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			children = (
 				6AC5F69022F0BDF7006A0FFD /* PicNameGroupView.swift */,
 				6AC5F69222F1DAA7006A0FFD /* ContactInfoView.swift */,
+				6A04724A22FC62A60028E35A /* ToneInfoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				6A04724722F9F48E0028E35A /* CircleDetailViewController.swift in Sources */,
 				6A18C0BF22ED54BB0095BFE1 /* AddContactViewController.swift in Sources */,
 				6A18C0B922ED050C0095BFE1 /* FavoritesViewController.swift in Sources */,
+				6A04724B22FC62A60028E35A /* ToneInfoView.swift in Sources */,
 				6A18C0C122ED5AA40095BFE1 /* Contact.swift in Sources */,
 				6A18C0B722ED05020095BFE1 /* CirclesViewController.swift in Sources */,
 				6A04724522F8A5580028E35A /* LargePictureTableViewCell.swift in Sources */,

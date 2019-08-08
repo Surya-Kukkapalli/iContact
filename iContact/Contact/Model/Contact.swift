@@ -8,7 +8,11 @@
 
 import UIKit
 
-struct Contact {
+struct Contact: Equatable {
+    
+    static func == (lhs: Contact, rhs: Contact) -> Bool {
+        return lhs.firstName == rhs.firstName && lhs.lastName == rhs.lastName
+    }
     
     let firstName: String?
     let lastName: String?

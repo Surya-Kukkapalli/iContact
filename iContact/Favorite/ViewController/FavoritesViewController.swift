@@ -8,37 +8,18 @@
 
 import UIKit
 
-class FavoritesViewController: UITableViewController {
+class FavoritesViewController: MainViewController {
 
-    // TODO: replace with custom search controller like in map app
-    let searchController = UISearchController(searchResultsController: nil)
-    var favoritesArray = [Contact]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBarItems()
         
         refreshControl = UIRefreshControl()
-        configureRefreshControl()
+        self.configureRefreshControl()
+        
+        self.isFavorites = true
     }
-    
-    @objc func addButtonPressed() {
-        // TODO: Change later, temporarily this
-        let mainVC = MainViewController()
-        navigationController?.pushViewController(mainVC, animated: true)
-    }
-    
-    @objc func showEditing(_ sender: UIBarButtonItem) {
-        if self.tableView.isEditing {
-            self.tableView.isEditing = false
-            self.navigationItem.leftBarButtonItem?.title = "Edit"
-        } else {
-            self.tableView.isEditing = true
-            self.navigationItem.leftBarButtonItem?.title = "Done"
-        }
-        //        self.tableView.reloadData()
-    }
-    
+        
 }
 
 // MARK: Navigation
@@ -62,23 +43,3 @@ extension FavoritesViewController {
     }
 }
 
-// MARK: Refresh control
-extension FavoritesViewController {
-    
-    func configureRefreshControl () {
-        // Add the refresh control to your UIScrollView object.
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl?.addTarget(self, action: #selector(handleRefreshControl),for: .valueChanged)
-    }
-    
-    @objc func handleRefreshControl() {
-        // TODO: Update conten
-        print("hello world")
-        
-        // Dismiss the refresh control.
-        DispatchQueue.main.async {
-            self.refreshControl?.endRefreshing()
-        }
-    }
-    
-}

@@ -21,7 +21,7 @@ class MainViewController: UITableViewController {
     var filteredContacts = [Contact]()
     let cellId = "ContactTableViewCell"
     let cardId = "LargePictureTableViewCell"
-    var favoritesArray = [Contact]()
+    var isFavorites = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,10 +38,22 @@ class MainViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if self.isFavorites {
+            self.reduceContactsArray()
+        }
+        
         tableView.reloadData()
     }
-
     
+    func reduceContactsArray() {
+        let sortedContacts = contacts.sorted(by: { $0.lastName! < $1.lastName! })
+        if let favoritesArray = UserDefaults.standard.array(forKey: "Favorite") as? [String] {
+            let filtered = sortedContacts.filter { favoritesArray.contains($0.firstName!) }
+            self.contacts = filtered
+        }
+    }
+
     @objc func addButtonPressed() {
         let addContactVC = AddContactViewController()
         navigationController?.pushViewController(addContactVC, animated: true)
@@ -131,17 +143,30 @@ extension MainViewController {
                 }
             }
             
-            // Setting the cell to the person's name from the above array depending on which cell. Last name is bold
-            var name: String
-            if !isFiltering() {
-                name = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
-                cell.nameLabel.boldChange(fullText: name, boldText: shortenedArray[indexPath.row].lastName!, ofSize: 15)
+            if !isFavorites {
+                
+                // Setting the cell to the person's name from the above array depending on which cell. Last name is bold
+                var name: String
+                if !isFiltering() {
+                    name = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
+                    cell.nameLabel.boldChange(fullText: name, boldText: shortenedArray[indexPath.row].lastName!, ofSize: 15)
+                } else {
+                    name = filteredContacts[indexPath.row].firstName! + " " + filteredContacts[indexPath.row].lastName!
+                    cell.nameLabel.boldChange(fullText: name, boldText: filteredContacts[indexPath.row].lastName!, ofSize: 15)
+                }
+                
+                return cell
             } else {
-                name = filteredContacts[indexPath.row].firstName! + " " + filteredContacts[indexPath.row].lastName!
-                cell.nameLabel.boldChange(fullText: name, boldText: filteredContacts[indexPath.row].lastName!, ofSize: 15)
+                for contact in sortedContacts {
+                    let firstNameArray = UserDefaults.standard.stringArray(forKey: "Favorite") ?? [String]()
+                    if contact.firstName! == firstNameArray[indexPath.row] {
+                        let name = shortenedArray[indexPath.row].firstName! + " " + shortenedArray[indexPath.row].lastName!
+                        cell.nameLabel.boldChange(fullText: name, boldText: shortenedArray[indexPath.row].lastName!, ofSize: 15)
+                    }
+                }
+                return cell
             }
             
-            return cell
         }
         
     }
@@ -216,7 +241,16 @@ extension MainViewController {
         
         let favoriteAction = UIContextualAction(style: .normal, title: "Favorite") { (action: UIContextualAction, sourceView: UIView, actionPerformed: (Bool) -> Void) in
             let sortedContacts = self.contacts.sorted(by: { $0.lastName! < $1.lastName! })
-            self.favoritesArray.append(sortedContacts[indexPath.row])
+            if let firstName = sortedContacts[indexPath.row].firstName {
+                var favoritesArray = [firstName]
+                // appending this new favorite to the existing favorites array
+                if let favorites = UserDefaults.standard.array(forKey: "Favorite") as? [String] {
+                    favoritesArray.append(contentsOf: favorites)
+                }
+                UserDefaults.standard.setValue(favoritesArray, forKey: "Favorite")
+                print(favoritesArray)
+            }
+
             actionPerformed(true)
         }
         
